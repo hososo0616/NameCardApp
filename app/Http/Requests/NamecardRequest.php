@@ -25,7 +25,7 @@ class NamecardRequest extends FormRequest
             'name' => 'required|max:16',
             // 'email' => 'required|email',
             'companyname' => 'required|max:32',
-            'image' => 'mimes:jpg,bmp,png,jpeg',
+            'image' => 'required|mimes:jpg,bmp,png,jpeg',
         ];
     }
 }

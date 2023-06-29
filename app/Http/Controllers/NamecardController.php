@@ -50,9 +50,9 @@ class NamecardController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Namecard $namecard)
+    public function show($id)
     {
-        $card = Namecard::findOrFail($namecard->id);
+        $card = Namecard::findOrFail($id);
         return view('namecard.show')->with(['card' => $card]);
     }
 
@@ -67,9 +67,25 @@ class NamecardController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Namecard $namecard)
+    public function update(NamecardRequest $request, $id)
     {
-        //
+        // dd($request);
+        // dd($id);
+
+        //画像の保存
+        $image_path = $request->file('image')->store('public/namecards/');
+
+        //該当レコードの抽出
+        $card = Namecard::findOrFail($id);
+
+        //更新処理
+        $card->name = $request->name;
+        $card->companyname = $request->companyname;
+        $card->path = basename($image_path);
+
+        $card->save();
+
+        return redirect()->route('namecard.index');
     }
 
     /**
