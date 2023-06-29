@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Namecard;
 use Illuminate\Http\Request;
+use App\Http\Requests\NamecardRequest;
 
 class NamecardController extends Controller
 {
@@ -28,9 +29,22 @@ class NamecardController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(NamecardRequest $request)
     {
-        //
+        // dd($request);
+
+        $image_path = $request->file('image')->store('public/namecards/');
+
+        // dd();
+
+        Namecard::create([
+            'name' => $request->name,
+            // 'email' => $request->email,
+            'companyname' => $request->companyname,
+            'path' => basename($image_path),
+        ]);
+
+        return redirect()->route('namecard.index');
     }
 
     /**
@@ -38,7 +52,8 @@ class NamecardController extends Controller
      */
     public function show(Namecard $namecard)
     {
-        //
+        $card = Namecard::findOrFail($namecard->id);
+        return view('namecard.show')->with(['card' => $card]);
     }
 
     /**
