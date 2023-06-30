@@ -91,8 +91,15 @@ class NamecardController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Namecard $namecard)
+    public function destroy($id)
     {
-        //
+        //該当レコードの抽出
+        $card = Namecard::findOrFail($id);
+
+        //レコードの削除
+        $card->delete();
+
+        //リダイレクト
+        return redirect()->route('namecard.index');
     }
 }

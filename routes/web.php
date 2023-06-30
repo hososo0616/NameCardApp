@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NamecardController;
+use App\Http\Controllers\BookmarkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('namecard', NamecardController::class)->middleware(['auth', 'verified']);
+
+Route::post('/namecard/{namecard}/bookmark', [BookmarkController::class, 'store'])->name('bookmark.store');
+Route::delete('/namecard/{namecard}/unbookmark', [BookmarkController::class, 'destroy'])->name('bookmark.destroy');
 
 
 Route::middleware('auth')->group(function () {
